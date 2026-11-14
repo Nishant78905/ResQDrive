@@ -1,0 +1,22 @@
+{
+  "info": {
+    "name": "RESQDRIVE API",
+    "description": "Driver and dispatcher endpoints. Import with the included baseUrl collection variable.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:3000" }, { "key": "token", "value": "" }, { "key": "accidentId", "value": "1" }],
+  "item": [
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Register", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"driver@example.test\",\n  \"password\": \"change-this-password\",\n  \"fullName\": \"Demo Driver\",\n  \"phone\": \"+1-555-0100\"\n}" }, "url": "{{baseUrl}}/api/auth/register" } },
+    { "name": "Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"driver@example.test\",\n  \"password\": \"change-this-password\"\n}" }, "url": "{{baseUrl}}/api/auth/login" } },
+    { "name": "Contacts", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/contacts" } },
+    { "name": "Create contact", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"fullName\": \"Taylor Morgan\",\n  \"relationship\": \"Parent\",\n  \"phone\": \"+1-555-0101\",\n  \"preferredChannel\": \"SMS\",\n  \"priority\": 1\n}" }, "url": "{{baseUrl}}/api/contacts" } },
+    { "name": "Vehicles", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/vehicles" } },
+    { "name": "Create vehicle", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"plateNumber\": \"8RESQ24\",\n  \"model\": \"2023 Volvo XC60\",\n  \"color\": \"Silver\"\n}" }, "url": "{{baseUrl}}/api/vehicles" } },
+    { "name": "Create accident and SOS", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"vehicleId\": 1,\n  \"lat\": 37.7749,\n  \"lng\": -122.4194,\n  \"peakG\": 4.25,\n  \"gyroData\": { \"x\": 0.31, \"y\": 4.12, \"z\": 0.18 },\n  \"timestamp\": \"2026-10-15T12:00:00.000Z\"\n}" }, "url": "{{baseUrl}}/api/accidents" } },
+    { "name": "Cancel accident", "request": { "method": "PATCH", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/accidents/{{accidentId}}/cancel" } },
+    { "name": "Accident history", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/accidents/history" } },
+    { "name": "Dispatcher login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"dispatcher@example.test\",\n  \"password\": \"change-this-password\"\n}" }, "url": "{{baseUrl}}/api/dispatch/login" } },
+    { "name": "Active incidents (dispatcher token)", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/dispatch/active" } }
+  ]
+}

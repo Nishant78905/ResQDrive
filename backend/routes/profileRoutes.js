@@ -1,0 +1,11 @@
+const express = require('express');
+const Joi = require('joi');
+const validate = require('../middleware/validate');
+const { requireAuth } = require('../middleware/auth');
+const { asyncHandler } = require('../middleware/errors');
+const controller = require('../controllers/profileController');
+const router = express.Router();
+router.use(requireAuth);
+router.get('/', asyncHandler(controller.get));
+router.patch('/', validate(Joi.object({ fullName: Joi.string().trim().min(1).max(120), phone: Joi.string().trim().max(32).allow('', null) }).min(1)), asyncHandler(controller.update));
+module.exports = router;

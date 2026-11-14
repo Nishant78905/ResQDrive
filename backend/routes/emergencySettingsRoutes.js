@@ -1,0 +1,11 @@
+const express = require('express');
+const Joi = require('joi');
+const validate = require('../middleware/validate');
+const { requireAuth } = require('../middleware/auth');
+const { asyncHandler } = require('../middleware/errors');
+const controller = require('../controllers/emergencySettingsController');
+const phone = Joi.string().trim().pattern(/^\+?[0-9 ()-]{7,32}$/).allow('', null);
+const schema = Joi.object({ policeEnabled: Joi.boolean().required(), policePhone: phone, ambulanceEnabled: Joi.boolean().required(), ambulancePhone: phone });
+const router = express.Router(); router.use(requireAuth);
+router.get('/', asyncHandler(controller.get)); router.put('/', validate(schema), asyncHandler(controller.update));
+module.exports = router;
