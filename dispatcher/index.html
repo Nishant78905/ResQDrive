@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f4f1">
+  <title>RESQDRIVE | Dispatch</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <main id="loginView" class="login-layout">
+    <section class="login-visual" aria-label="Dispatch operations">
+      <div class="brand"><span class="brand-mark">R</span> RESQDRIVE <span class="brand-divider">/</span> DISPATCH</div>
+      <div class="visual-copy"><p class="eyebrow">EMERGENCY RESPONSE NETWORK</p><h1>Every second.<br>Every signal.</h1><p>Incident coordination console</p></div>
+      <div class="visual-footer"><span class="live-dot"></span> Response network ready</div>
+    </section>
+    <section class="login-panel">
+      <div class="login-form-wrap">
+        <p class="eyebrow">DISPATCH ACCESS</p><h2>Sign in to operations</h2><p class="subtle">Use your dispatcher account to view active incidents.</p>
+        <form id="loginForm">
+          <label class="field">Email address<input name="email" type="email" autocomplete="username" placeholder="dispatcher@example.com" required></label>
+          <label class="field">Password<input name="password" type="password" autocomplete="current-password" placeholder="Your password" required></label>
+          <label class="field endpoint-field">API endpoint<input id="apiBase" type="url" value="http://localhost:3000/api" required></label>
+          <p id="loginError" class="error-message" role="alert"></p>
+          <button class="primary" type="submit" id="loginSubmit">Sign in <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="login-note">Authorized dispatch personnel only</p>
+      </div>
+    </section>
+  </main>
+
+  <main id="dashboardView" class="dashboard" hidden>
+    <header class="topbar">
+      <a class="brand" href="#" id="brandHome"><span class="brand-mark">R</span> RESQDRIVE <span class="brand-divider">/</span> DISPATCH</a>
+      <div class="topbar-actions"><span class="network-state"><span class="live-dot" id="networkDot"></span><span id="networkLabel">CONNECTING</span></span><button class="icon-button" id="refreshButton" title="Refresh incidents" aria-label="Refresh incidents">↻</button><button class="user-button" id="signOutButton"><span class="user-avatar">D</span><span id="dispatcherName">Dispatcher</span><span aria-hidden="true">⌄</span></button></div>
+    </header>
+    <section class="dashboard-heading"><div><p class="eyebrow">LIVE RESPONSE</p><h1>Active incidents</h1><p class="subtle">New reports appear automatically. Confirm location and contact status.</p></div><div class="poll-state"><span class="poll-ring"></span><span>Updates every 5 sec</span><span class="last-updated" id="lastUpdated">Waiting for first update</span></div></section>
+    <section class="metrics" aria-label="Incident summary"><article class="metric"><span class="metric-label">ACTIVE INCIDENTS</span><strong id="activeCount">0</strong><span class="metric-note">Awaiting response</span></article><article class="metric"><span class="metric-label">CONTACTS NOTIFIED</span><strong id="contactCount">0</strong><span class="metric-note">Across active incidents</span></article><article class="metric"><span class="metric-label">OLDEST OPEN</span><strong id="oldestAge">—</strong><span class="metric-note">Response elapsed</span></article></section>
+    <section class="work-area">
+      <div class="incident-column">
+        <div class="column-heading"><div><h2>Incident queue</h2><span id="queueLabel">0 active</span></div><button class="filter-button selected" id="activeFilter">Active</button></div>
+        <div class="incident-list" id="incidentList"><div class="loading-state"><span class="spinner"></span><span>Connecting to incident service</span></div></div>
+      </div>
+      <section class="detail-panel" aria-label="Selected incident details">
+        <div class="detail-heading"><div><p class="eyebrow">INCIDENT DETAIL</p><h2 id="detailTitle">Select an incident</h2></div><span class="status-tag" id="detailStatus">WAITING</span></div>
+        <div id="map" class="map" aria-label="Map showing incident locations"></div>
+        <div class="detail-content" id="detailContent"><div class="empty-detail"><span class="empty-crosshair">⌖</span><p>Incident details will appear here</p></div></div>
+      </section>
+    </section>
+    <footer class="dashboard-footer"><span>RESQDRIVE RESPONSE CONSOLE</span><span id="apiStatus">API connection pending</span></footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
